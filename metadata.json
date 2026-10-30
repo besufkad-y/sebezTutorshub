@@ -1,0 +1,6 @@
+{
+  "name": "EduConnect - Tutors Connection Platform",
+  "description": "A modern platform connecting tutors with students and parents for personalized learning, session booking, direct messaging, and reviews.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
