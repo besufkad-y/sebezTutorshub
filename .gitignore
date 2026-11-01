@@ -1,8 +1,54 @@
+# Dependencies
 node_modules/
-build/
-dist/
+.pnp
+.pnp.js
+
+# Testing
 coverage/
-.DS_Store
+.pytest_cache/
+
+# Production builds
+dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Database
+*.sqlite3
+*.sqlite3-journal
+
+# Logs & Environment
 *.log
-.env*
-!.env.example
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.DS_Store
+
+# Media files
+media/users/
+media/uploads/
