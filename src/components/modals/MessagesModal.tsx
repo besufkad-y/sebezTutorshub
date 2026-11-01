@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { Conversation, Message, TutorDetail, api } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { formatDate } from '../../utils/validation';
-import { X, Send, MessageSquare, User as UserIcon } from 'lucide-react';
+import { X, Send, MessageSquare, User as UserIcon, Sparkles } from 'lucide-react';
 
 interface MessagesModalProps {
   initialPartner?: TutorDetail | null;
@@ -53,7 +54,7 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
         }
       }
     } catch {
-      // Error
+      // Handled silently
     }
   };
 
@@ -65,7 +66,7 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
         setMessages(res.messages);
       }
     } catch {
-      showToast('Error loading chat messages.', 'error');
+      showToast('Error loading messages.', 'error');
     } finally {
       setLoading(false);
     }
@@ -92,17 +93,28 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col h-[650px] max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+        className="relative w-full max-w-4xl bg-[#0C0E18] rounded-3xl border border-white/[0.12] shadow-[0_25px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col h-[680px] max-h-[90vh]"
+      >
         {/* Top Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-indigo-600" />
-            <h3 className="font-bold text-slate-800 text-base">Direct Messaging</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#0F121E]">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-violet-600/20 text-violet-400 border border-violet-500/30">
+              <MessageSquare className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="font-bold text-white text-sm">Direct Messaging</h3>
+              <p className="text-[11px] font-mono-accent text-slate-400">REAL-TIME COMM CHANNEL</p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-600 rounded-full transition"
+            className="p-1.5 text-slate-400 hover:text-white rounded-full transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -111,13 +123,12 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
         {/* 2-Pane Chat Layout */}
         <div className="flex-1 flex overflow-hidden">
           {/* Left Pane: Conversations */}
-          <div className="w-1/3 border-r border-slate-100 flex flex-col bg-slate-50/50">
-            <div className="p-3.5 border-b border-slate-100 font-bold text-xs uppercase tracking-wider text-slate-500">
-              Conversations
+          <div className="w-1/3 border-r border-white/[0.08] flex flex-col bg-white/[0.01]">
+            <div className="p-4 border-b border-white/[0.06] text-[11px] font-mono-accent uppercase tracking-widest text-slate-400 font-bold">
+              CONVERSATIONS
             </div>
 
-            <div className="flex-1 overflow-y-auto divide-y divide-slate-100">
-              {/* If initialPartner was passed and not in conversations yet, display header */}
+            <div className="flex-1 overflow-y-auto divide-y divide-white/[0.04]">
               {initialPartner &&
                 !conversations.some((c) => c.user_id === initialPartner.user_id) && (
                   <div
@@ -127,22 +138,22 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
                         `${initialPartner.first_name} ${initialPartner.last_name}`
                       );
                     }}
-                    className={`p-3.5 flex items-center gap-3 cursor-pointer transition ${
+                    className={`p-4 flex items-center gap-3 cursor-pointer transition ${
                       activePartnerId === initialPartner.user_id
-                        ? 'bg-indigo-50/80 border-l-4 border-indigo-600'
-                        : 'hover:bg-slate-100'
+                        ? 'bg-violet-600/20 border-l-2 border-violet-500'
+                        : 'hover:bg-white/[0.04]'
                     }`}
                   >
                     <img
                       src={initialPartner.profile_picture_url || '/images/users/1.jpg'}
                       alt={initialPartner.first_name}
-                      className="w-10 h-10 rounded-full object-cover border border-white shadow-sm"
+                      className="w-10 h-10 rounded-xl object-cover border border-violet-500/30 shadow-sm"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-bold text-slate-900 truncate">
+                      <div className="text-sm font-bold text-white truncate">
                         {initialPartner.first_name} {initialPartner.last_name}
                       </div>
-                      <div className="text-xs text-indigo-600 italic">Start conversation...</div>
+                      <div className="text-xs text-violet-400 italic">Start conversation...</div>
                     </div>
                   </div>
                 )}
@@ -157,24 +168,24 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
                         setActivePartnerId(conv.user_id);
                         setActivePartnerName(conv.name);
                       }}
-                      className={`p-3.5 flex items-center gap-3 cursor-pointer transition ${
+                      className={`p-4 flex items-center gap-3 cursor-pointer transition ${
                         isActive
-                          ? 'bg-indigo-50/80 border-l-4 border-indigo-600'
-                          : 'hover:bg-slate-100'
+                          ? 'bg-violet-600/20 border-l-2 border-violet-500'
+                          : 'hover:bg-white/[0.04]'
                       }`}
                     >
                       <img
                         src={conv.avatar || '/images/users/1.jpg'}
                         alt={conv.name}
-                        className="w-10 h-10 rounded-full object-cover border border-white shadow-sm"
+                        className="w-10 h-10 rounded-xl object-cover border border-white/10"
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-slate-900 truncate">
+                          <span className="text-sm font-bold text-white truncate">
                             {conv.name}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-500 truncate mt-0.5">
+                        <p className="text-xs text-slate-400 truncate mt-0.5 font-light">
                           {conv.last_message}
                         </p>
                       </div>
@@ -182,35 +193,35 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
                   );
                 })
               ) : (
-                <div className="p-6 text-center text-xs text-slate-400">
-                  No active conversations yet.
+                <div className="p-8 text-center text-xs text-slate-500 font-mono-accent">
+                  NO ACTIVE CHATS
                 </div>
               )}
             </div>
           </div>
 
           {/* Right Pane: Chat Thread */}
-          <div className="flex-1 flex flex-col bg-white">
+          <div className="flex-1 flex flex-col bg-[#080A12]">
             {activePartnerId ? (
               <>
-                {/* Chat Partner Header */}
-                <div className="px-6 py-3 border-b border-slate-100 flex items-center gap-3 bg-white">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">
+                {/* Active Partner Bar */}
+                <div className="px-6 py-3.5 border-b border-white/[0.08] flex items-center gap-3 bg-white/[0.02]">
+                  <div className="w-8 h-8 rounded-xl bg-violet-600/30 border border-violet-500/40 text-violet-300 flex items-center justify-center font-bold text-xs">
                     <UserIcon className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900">{activePartnerName}</h4>
-                    <span className="text-[11px] text-emerald-600 flex items-center gap-1 font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Online
+                    <h4 className="text-sm font-bold text-white">{activePartnerName}</h4>
+                    <span className="text-[10px] font-mono-accent text-emerald-400 flex items-center gap-1 font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> ONLINE
                     </span>
                   </div>
                 </div>
 
                 {/* Messages History */}
-                <div className="flex-1 p-6 overflow-y-auto space-y-3 bg-slate-50/40">
+                <div className="flex-1 p-6 overflow-y-auto space-y-3 bg-[#080A12]">
                   {loading ? (
-                    <div className="text-center text-xs text-slate-400 py-10">
-                      Loading messages...
+                    <div className="text-center text-xs text-slate-500 py-12 font-mono-accent">
+                      LOADING TRANSMISSION HISTORY...
                     </div>
                   ) : messages.length > 0 ? (
                     messages.map((msg) => {
@@ -221,57 +232,57 @@ export const MessagesModal: React.FC<MessagesModalProps> = ({
                           className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}
                         >
                           <div
-                            className={`max-w-md px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                            className={`max-w-md px-4 py-3 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                               isMe
-                                ? 'bg-indigo-600 text-white rounded-br-none shadow-sm shadow-indigo-200'
-                                : 'bg-white text-slate-800 rounded-bl-none border border-slate-200/80 shadow-sm'
+                                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-br-none shadow-lg shadow-violet-600/25'
+                                : 'bg-[#141829] text-slate-200 rounded-bl-none border border-white/[0.08]'
                             }`}
                           >
                             {msg.message_content}
                           </div>
-                          <span className="text-[10px] text-slate-400 mt-1 px-1">
+                          <span className="text-[10px] font-mono-accent text-slate-500 mt-1 px-1">
                             {formatDate(msg.created_at)}
                           </span>
                         </div>
                       );
                     })
                   ) : (
-                    <div className="text-center text-xs text-slate-400 py-12">
-                      Send your first message to start the conversation!
+                    <div className="text-center text-xs text-slate-500 py-16">
+                      Send your initial inquiry or questions to start collaborating!
                     </div>
                   )}
                   <div ref={messagesEndRef} />
                 </div>
 
-                {/* Message Input Form */}
+                {/* Input Bar */}
                 <form
                   onSubmit={handleSendMessage}
-                  className="p-4 border-t border-slate-100 bg-white flex gap-2"
+                  className="p-4 border-t border-white/[0.08] bg-[#0C0E18] flex gap-2.5"
                 >
                   <input
                     type="text"
                     required
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
-                    placeholder="Type your message here..."
-                    className="flex-1 px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Type your message..."
+                    className="flex-1 px-4 py-3 text-sm bg-white/[0.04] border border-white/[0.1] rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-violet-500/40"
                   />
                   <button
                     type="submit"
-                    className="p-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md shadow-indigo-200 transition"
+                    className="p-3 bg-violet-600 hover:bg-violet-500 text-white rounded-2xl shadow-lg shadow-violet-600/30 transition cursor-pointer"
                   >
                     <Send className="w-5 h-5" />
                   </button>
                 </form>
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-center p-6 text-slate-400 text-sm">
-                Select a conversation on the left to start messaging.
+              <div className="flex-1 flex items-center justify-center text-center p-8 text-slate-500 text-xs font-mono-accent">
+                SELECT A CONVERSATION ON THE LEFT TO TRANSMIT
               </div>
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

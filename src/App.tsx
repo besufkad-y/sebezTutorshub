@@ -75,7 +75,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans selection:bg-indigo-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#07080D] text-slate-100 font-sans selection:bg-violet-600 selection:text-white">
       {/* Toast Notification Layer */}
       <Toast toasts={toasts} onDismiss={dismissToast} />
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { GraduationCap, MapPin, Phone, Mail, Star, Heart } from 'lucide-react';
+import { motion } from 'motion/react';
+import { GraduationCap, MapPin, Phone, Mail, Star, Sparkles, Heart } from 'lucide-react';
 
 interface FooterProps {
   onOpenHowItWorks: () => void;
@@ -15,107 +16,113 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenWebsiteReview,
 }) => {
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
-          {/* Col 1: Brand */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2.5 text-2xl font-extrabold text-white">
-              <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center">
-                <GraduationCap className="w-5 h-5" />
+    <footer className="relative bg-[#05060A] text-slate-400 pt-20 pb-12 border-t border-white/[0.08] overflow-hidden">
+      {/* Top subtle ambient glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/[0.06]">
+          {/* Brand & Mission (Col 1-4) */}
+          <div className="lg:col-span-4 space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#0F121E] border border-white/20 text-white flex items-center justify-center shadow-lg">
+                <GraduationCap className="w-5 h-5 text-violet-400" />
               </div>
-              <span>EduConnect</span>
+              <span className="text-xl font-black text-white tracking-tight">
+                EDU<span className="text-violet-400">CONNECT</span>
+              </span>
             </div>
-            <p className="text-sm text-slate-400 leading-relaxed font-light">
-              Connecting students and parents with vetted, expert educators for highly personalized learning experiences.
+
+            <p className="text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+              Empowering students and parents with vetted, high-caliber tutors for personalized 1-on-1 academic mastery and career acceleration.
             </p>
+
             <div className="pt-2">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={onOpenWebsiteReview}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-amber-400 border border-slate-700 transition"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono-accent font-bold uppercase tracking-wider transition cursor-pointer"
               >
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
-                <span>Rate Platform</span>
-              </button>
+                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                <span>Rate Platform Experience</span>
+              </motion.button>
             </div>
           </div>
 
-          {/* Col 2: Quick Links */}
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4">
-              Quick Links
+          {/* Quick Links (Col 5-7) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs font-mono-accent uppercase tracking-widest text-white font-bold">
+              PLATFORM NAVIGATION
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs">
               <li>
-                <a href="#" className="hover:text-indigo-400 transition">Home</a>
+                <a href="#" className="hover:text-white transition">Home</a>
               </li>
               <li>
-                <a href="#tutorsSection" className="hover:text-indigo-400 transition">Find Tutors</a>
+                <a href="#tutorsSection" className="hover:text-white transition">Find Tutors Directory</a>
               </li>
               <li>
-                <a href="#subjectsSection" className="hover:text-indigo-400 transition">Subjects</a>
+                <a href="#subjectsSection" className="hover:text-white transition">Explore Subjects</a>
               </li>
               <li>
-                <button onClick={onOpenHowItWorks} className="hover:text-indigo-400 transition cursor-pointer">
+                <button
+                  onClick={onOpenHowItWorks}
+                  className="hover:text-white transition cursor-pointer text-left"
+                >
                   How It Works
                 </button>
               </li>
               <li>
-                <button onClick={onOpenPricing} className="hover:text-indigo-400 transition cursor-pointer">
-                  Pricing Plans
+                <button
+                  onClick={onOpenPricing}
+                  className="hover:text-white transition cursor-pointer text-left"
+                >
+                  Pricing Philosophy
                 </button>
               </li>
               <li>
-                <button onClick={onOpenContact} className="hover:text-indigo-400 transition cursor-pointer">
+                <button
+                  onClick={onOpenContact}
+                  className="hover:text-white transition cursor-pointer text-left"
+                >
                   Contact Support
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Popular Subjects */}
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4">
-              Subjects
+          {/* Core Subjects (Col 8-9) */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className="text-xs font-mono-accent uppercase tracking-widest text-white font-bold">
+              DOMAINS
             </h4>
-            <ul className="space-y-2.5 text-sm text-slate-400">
-              <li>
-                <a href="#tutorsSection" className="hover:text-white transition">Mathematics & Calculus</a>
-              </li>
-              <li>
-                <a href="#tutorsSection" className="hover:text-white transition">Physics & Chemistry</a>
-              </li>
-              <li>
-                <a href="#tutorsSection" className="hover:text-white transition">Computer Science & AI</a>
-              </li>
-              <li>
-                <a href="#tutorsSection" className="hover:text-white transition">Languages (Spanish, French)</a>
-              </li>
-              <li>
-                <a href="#tutorsSection" className="hover:text-white transition">Test Preparation (SAT/ACT)</a>
-              </li>
-              <li>
-                <a href="#tutorsSection" className="hover:text-white transition">Economics & Business</a>
-              </li>
+            <ul className="space-y-2.5 text-xs text-slate-400">
+              <li>Mathematics</li>
+              <li>Physics</li>
+              <li>Computer Science</li>
+              <li>Languages</li>
+              <li>Test Preparation</li>
+              <li>Economics</li>
             </ul>
           </div>
 
-          {/* Col 4: Contact Us */}
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4">
-              Contact Us
+          {/* Direct Support (Col 10-12) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs font-mono-accent uppercase tracking-widest text-white font-bold">
+              SUPPORT & INQUIRIES
             </h4>
-            <ul className="space-y-3 text-sm text-slate-400">
+            <ul className="space-y-3 text-xs text-slate-400">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-                <span>123 Education St, Learning City, 54321</span>
+                <MapPin className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
+                <span>San Francisco, CA & Global Remote</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-indigo-400 shrink-0" />
-                <span>+1 (555) 123-4567</span>
+                <Phone className="w-4 h-4 text-violet-400 shrink-0" />
+                <span>+1 (555) 234-5678</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-indigo-400 shrink-0" />
+                <Mail className="w-4 h-4 text-violet-400 shrink-0" />
                 <span>support@educonnect.com</span>
               </li>
             </ul>
@@ -124,12 +131,12 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <div>
-            &copy; 2026 EduConnect Tutoring Platform. Rebuilt with DRF, React, and TDD.
+          <div className="font-mono-accent">
+            &copy; {new Date().getFullYear()} EDUCONNECT • ARCHITECTED WITH DRF & REACT 19
           </div>
-          <div className="flex items-center gap-1 text-slate-400">
-            <span>Built with precision & high standards</span>
-            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+          <div className="flex items-center gap-2 text-slate-400 font-mono-accent text-[11px]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>ALL SYSTEMS OPERATIONAL</span>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { X, CheckCircle, Lightbulb, Users, Calendar, Award } from 'lucide-react';
+import { motion } from 'motion/react';
+import { X, CheckCircle, Lightbulb, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 
 interface HowItWorksModalProps {
   onClose: () => void;
@@ -8,17 +9,28 @@ interface HowItWorksModalProps {
 
 export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({ onClose, onExplore }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 15 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+        className="relative w-full max-w-2xl bg-[#0C0E18] rounded-3xl border border-white/[0.12] shadow-[0_25px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-          <div className="flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-indigo-600" />
-            <h3 className="font-bold text-slate-800 text-base">How EduConnect Works</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#0F121E]">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-violet-600/20 text-violet-400 border border-violet-500/30">
+              <Lightbulb className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="font-bold text-white text-sm">How EduConnect Operates</h3>
+              <p className="text-[11px] font-mono-accent text-slate-400">THE 4-STEP MASTERY WORKFLOW</p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-600 rounded-full transition"
+            className="p-1.5 text-slate-400 hover:text-white rounded-full transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -26,92 +38,69 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({ onClose, onExp
 
         {/* Content */}
         <div className="p-6 sm:p-8 space-y-6">
-          <ol className="space-y-4">
-            <li className="flex items-start gap-3">
-              <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                1
-              </span>
-              <div>
-                <strong className="text-slate-900 text-sm block">Create Your Profile</strong>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  Sign up as a student, parent, or tutor. Customize your learning goals or instructional background.
-                </p>
+          <div className="grid grid-cols-1 gap-4">
+            {[
+              {
+                step: '01',
+                title: 'Enroll & Configure Profile',
+                desc: 'Sign up as a student, parent, or certified tutor. Define academic goals or instructional specialties.',
+              },
+              {
+                step: '02',
+                title: 'Explore & Chat Live',
+                desc: 'Filter by academic discipline, read authentic peer reviews, and message tutors directly to align on topics.',
+              },
+              {
+                step: '03',
+                title: 'Schedule 1-on-1 Sessions',
+                desc: 'Pick your preferred future time slot with instant validation and specify session homework topics.',
+              },
+              {
+                step: '04',
+                title: 'Accelerate Mastery & Review',
+                desc: 'Engage in focused lessons, track completed milestones, and submit verified feedback for the community.',
+              },
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-violet-500/30 transition"
+              >
+                <div className="w-10 h-10 rounded-xl bg-violet-600/20 border border-violet-500/30 text-violet-300 font-mono-accent font-bold text-sm flex items-center justify-center shrink-0">
+                  {item.step}
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white">{item.title}</h4>
+                  <p className="text-xs text-slate-300 font-light mt-1 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
-            </li>
-
-            <li className="flex items-start gap-3">
-              <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                2
-              </span>
-              <div>
-                <strong className="text-slate-900 text-sm block">Find & Connect with Tutors</strong>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  Filter by subject, examine verified reviews, and send direct messages to clarify lesson expectations.
-                </p>
-              </div>
-            </li>
-
-            <li className="flex items-start gap-3">
-              <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                3
-              </span>
-              <div>
-                <strong className="text-slate-900 text-sm block">Book a Session</strong>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  Select a convenient future time slot that fits your schedule and include your lesson focus or homework topics.
-                </p>
-              </div>
-            </li>
-
-            <li className="flex items-start gap-3">
-              <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                4
-              </span>
-              <div>
-                <strong className="text-slate-900 text-sm block">Review & Accelerate Progress</strong>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  Leave honest feedback after completed sessions to help tutors excel and help fellow students choose wisely.
-                </p>
-              </div>
-            </li>
-          </ol>
-
-          {/* Benefits Box */}
-          <div className="p-4 bg-indigo-50/70 rounded-2xl border border-indigo-100 space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-800">
-              Why Choose EduConnect?
-            </h4>
-            <div className="grid grid-cols-2 gap-2 text-xs font-medium text-slate-700">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Verified tutors & educators</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Flexible online/in-person slots</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Secure pay-as-you-go</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Authentic student ratings</span>
-              </div>
-            </div>
+            ))}
           </div>
 
-          <button
+          {/* Guarantee Banner */}
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-violet-600/20 via-fuchsia-600/15 to-cyan-500/10 border border-white/[0.1] flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2 text-violet-200">
+              <ShieldCheck className="w-4 h-4 text-violet-400" />
+              <span>Full satisfaction with flexible rescheduling</span>
+            </div>
+            <span className="font-mono-accent text-slate-400 text-[10px]">100% VETTED</span>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => {
               onClose();
               onExplore();
             }}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md shadow-indigo-200 transition"
+            className="w-full py-3.5 bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs uppercase tracking-wider rounded-2xl shadow-lg shadow-violet-600/30 transition cursor-pointer flex items-center justify-center gap-2"
           >
-            Find a Tutor Now
-          </button>
+            <span>Explore Tutors Directory</span>
+            <ArrowRight className="w-4 h-4" />
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
